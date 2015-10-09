@@ -30,7 +30,7 @@ torch.setdefaulttensortype('torch.DoubleTensor')
 
 model = nn.Sequential()
 model:add(nn.Linear(ninput,nhidden))
-model:add(nn.Sigmoid())
+--model:add(nn.Sigmoid())
 model:add(nn.Linear(nhidden,ninput))
 
 
