@@ -259,7 +259,7 @@ class dA(object):
 
 
 def test_dA(learning_rate=0.1, training_epochs=15,
-            dataset='/home/ubuntu/karishma/DAE/solution/data/train',
+            dataset='/home/ubuntu/karishma/data/train',
             batch_size=100, output_folder='dA_plots'):
 
     """
@@ -280,7 +280,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
     #train_set_x, train_set_y = datasets[0]
     dr = data_reader(dataset,2501)
     train_set_x = dr.next_batch()
-    #print train_set_x.get_value(borrow=True).shape
+    print train_set_x.get_value(borrow=True).shape
 
     # compute number of minibatches for training, validation and testing
     n_train_batches = 2501/batch_size#train_set_x.get_value(borrow=True).shape[0] / batch_size
