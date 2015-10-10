@@ -22,12 +22,11 @@ class data_reader():
         self._batch_str = 0
       
     def normalize(self,img):
-        norm=np.linalg.norm(img)
-        if norm==0: 
-           return img
-        return img/norm      
+        return (img - np.min(img))/(np.max(img)-np.min(img))
+       
     def _to_gray(self,img):
-        return np.sum(img,axis=2)
+        img = np.sum(img,axis=2)
+        return np.array(img,dtype=np.float32)
     
     def _get_patches(self,img,size=32,):
         sz = img.itemsize
@@ -46,6 +45,7 @@ class data_reader():
             img = self.normalize(img)
             patch = self._get_patches(img, size=32)
             data_list.append(patch)
+            print img
         data_list = np.array(data_list,dtype=np.float32)
         
         data_list = np.reshape(data_list,(-1,32*32))
