@@ -21,7 +21,7 @@ dofile('load_data.lua')
 local data_reader = load_data(opt.inputdata,batch_size)
 
 ninput = 256*256
-nhidden = (30)
+nhidden = (100)
 
 --ipdata = ipdata:float()
 --opdata  = ipdata:copy()
@@ -30,9 +30,9 @@ torch.setdefaulttensortype('torch.DoubleTensor')
 
 model = nn.Sequential()
 model:add(nn.Linear(ninput,nhidden))
---model:add(nn.Sigmoid())
+model:add(nn.Sigmoid())
 model:add(nn.Linear(nhidden,ninput))
-
+model:add(nn.Sigmoid())
 
 -- Loss function
 criterion = nn.MSECriterion()
@@ -68,18 +68,6 @@ function train()
       
       
       local targets = inputs
-      -- create minibatch
-      -- local inputs = ipdata
-      -- local targets = ipdata
-      -- ipdata = nil
-      -- --local inputs = {}
-      --local targets = {}
-      --for i = t, math.min(t+batch_size-1, ipdata:size(1)) do
-	 --local input = ipdata[i]
-	 --local target = ipdata[i]
-	 --table.insert(inputs, input)
-	 --table.insert(targets, target)
-      --end
 
       -- create closure to evalueate f(X) and df(X)/dX
       local feval = function(x)
@@ -99,7 +87,7 @@ function train()
 	 -- evaluate function for complete minibatch
 	 for i = 1,#inputs do
 	    --estimate f
-       local corrupted_input = nn.Dropout():forward(torch.Tensor(inputs[i]))
+       local corrupted_input = nn.Dropout(0.1):forward(torch.Tensor(inputs[i]))
 	    local output = model:forward(corrupted_input)
 	    local err = criterion:forward(output, targets[i])
 	    f = f + err
@@ -140,11 +128,12 @@ function train()
    
 end
 
-for j = 1, 10 do
+for j = 1, 30 do
+   print("epoch "..j.." of 30")
    train()  
 end
 data_reader:reinit()
-ipdata=image.load('../data/train/000012.jpg')
+ipdata=image.load('../../data/train/000012.jpg')
 ipdata=nn.Reshape(256*256):forward(image.rgb2y(ipdata))
 torch.save('net.bin', model)
 weight = torch.Tensor((model:forward(ipdata)))
