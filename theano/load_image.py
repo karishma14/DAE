@@ -40,8 +40,8 @@ class data_reader():
             img = self._to_gray(img)
             patch = self._get_patches(img, size=32)
             data_list.append(patch)
-        data_list = np.array(data_list,dtype=float)
-        data_list = np.reshape(data_list,(-1,32,32))
+        data_list = np.array(data_list,dtype=np.float32)
+        data_list = np.reshape(data_list,(-1,32*32))
         shared_list=theano.shared(data_list)
         return T.as_tensor_variable(shared_list)
     
