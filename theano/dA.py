@@ -39,7 +39,7 @@ import numpy
 import theano
 import theano.tensor as T
 from theano.tensor.shared_randomstreams import RandomStreams
-
+from load_image import data_reader
 from logistic_sgd import load_data
 from utils import tile_raster_images
 
@@ -259,8 +259,8 @@ class dA(object):
 
 
 def test_dA(learning_rate=0.1, training_epochs=15,
-            dataset='mnist.pkl.gz',
-            batch_size=20, output_folder='dA_plots'):
+            dataset='/home/ubuntu/karishma/DAE/solution/data/train',
+            batch_size=100, output_folder='dA_plots'):
 
     """
     This demo is tested on MNIST
@@ -276,11 +276,12 @@ def test_dA(learning_rate=0.1, training_epochs=15,
     :param dataset: path to the picked dataset
 
     """
-    datasets = load_data(dataset)
-    train_set_x, train_set_y = datasets[0]
+    #datasets = load_data(dataset)
+    #train_set_x, train_set_y = datasets[0]
+    #print train_set_x.get_value(borrow=True).shape
 
     # compute number of minibatches for training, validation and testing
-    n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
+    n_train_batches = 1000/batch_size#train_set_x.get_value(borrow=True).shape[0] / batch_size
 
     # start-snippet-2
     # allocate symbolic variables for the data

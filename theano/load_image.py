@@ -31,7 +31,7 @@ class data_reader():
         shape=(h/bh,w/bh,bh,bw)
         strides = sz*np.array([w*bh,bw,w,1])
         blocks=np.lib.stride_tricks.as_strided(img, shape=shape, strides=strides)
-        return np.reshape(blocks,(-1,32,32))
+        return np.reshape(blocks,(-1,32*32))
 
     def next_batch(self):
         data_list = list()

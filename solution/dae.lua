@@ -16,12 +16,12 @@ if not opt then
    opt = cmd:parse(arg or {})
 end
 
-batch_size = 100
+batch_size = 1000
 dofile('load_data.lua')
 local data_reader = load_data(opt.inputdata,batch_size)
 
 ninput = 256*256
-nhidden = (100)
+nhidden = (50)
 
 --ipdata = ipdata:float()
 --opdata  = ipdata:copy()
