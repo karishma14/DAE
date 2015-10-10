@@ -42,8 +42,8 @@ class data_reader():
             data_list.append(patch)
         data_list = np.array(data_list,dtype=np.float32)
         data_list = np.reshape(data_list,(-1,32*32))
-        shared_list=theano.shared(data_list)
-        return T.as_tensor_variable(shared_list)
+        
+        return data_list
     
 def main():
     
