@@ -258,7 +258,7 @@ class dA(object):
         return (cost, updates)
 
 
-def test_dA(learning_rate=0.1, training_epochs=50,
+def test_dA(learning_rate=0.1, training_epochs=100,
             dataset='/home/ubuntu/karishma/data/train',
             batch_size=100, output_folder='dA_plots'):
 
@@ -283,7 +283,7 @@ def test_dA(learning_rate=0.1, training_epochs=50,
     print train_set_x.get_value(borrow=True).shape
 
     # compute number of minibatches for training, validation and testing
-    n_train_batches = 2501/batch_size#train_set_x.get_value(borrow=True).shape[0] / batch_size
+    n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
 
     # start-snippet-2
     # allocate symbolic variables for the data
@@ -299,32 +299,32 @@ def test_dA(learning_rate=0.1, training_epochs=50,
     # BUILDING THE MODEL NO CORRUPTION #
     ####################################
 
-    rng = numpy.random.RandomState(123)
-    theano_rng = RandomStreams(rng.randint(2 ** 30))
-
-    da = dA(
-        numpy_rng=rng,
-        theano_rng=theano_rng,
-        input=x,
-        n_visible=32 * 32,
-        n_hidden=500
-    )
-
-    cost, updates = da.get_cost_updates(
-        corruption_level=0.,
-        learning_rate=learning_rate
-    )
-
-    train_da = theano.function(
-        [index],
-        cost,
-        updates=updates,
-        givens={
-            x: train_set_x[index * batch_size: (index + 1) * batch_size]
-        }
-    )
-
-    start_time = timeit.default_timer()
+#     rng = numpy.random.RandomState(123)
+#     theano_rng = RandomStreams(rng.randint(2 ** 30))
+# 
+#     da = dA(
+#         numpy_rng=rng,
+#         theano_rng=theano_rng,
+#         input=x,
+#         n_visible=32 * 32,
+#         n_hidden=500
+#     )
+# 
+#     cost, updates = da.get_cost_updates(
+#         corruption_level=0.,
+#         learning_rate=learning_rate
+#     )
+# 
+#     train_da = theano.function(
+#         [index],
+#         cost,
+#         updates=updates,
+#         givens={
+#             x: train_set_x[index * batch_size: (index + 1) * batch_size]
+#         }
+#     )
+# 
+#     start_time = timeit.default_timer()
 
     ############
     # TRAINING #
@@ -365,7 +365,7 @@ def test_dA(learning_rate=0.1, training_epochs=50,
         theano_rng=theano_rng,
         input=x,
         n_visible=32 * 32,
-        n_hidden=500
+        n_hidden=600
     )
 
     cost, updates = da.get_cost_updates(
