@@ -33,7 +33,7 @@
 import os
 import sys
 import timeit
-
+import scipy
 import numpy
 
 import theano
@@ -257,7 +257,7 @@ class dA(object):
         return (cost, updates)
 
 
-def test_dA(learning_rate=0.1, training_epochs=100,
+def test_dA(learning_rate=0.1, training_epochs=50,
             dataset='/home/ubuntu/karishma/data/train',
             batch_size=100, output_folder='dA_plots'):
 
