@@ -45,7 +45,6 @@ class data_reader():
             img = self.normalize(img)
             patch = self._get_patches(img, size=32)
             data_list.append(patch)
-            print img
         data_list = np.array(data_list,dtype=np.float32)
         
         data_list = np.reshape(data_list,(-1,32*32))
