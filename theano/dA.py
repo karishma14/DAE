@@ -278,10 +278,12 @@ def test_dA(learning_rate=0.1, training_epochs=15,
     """
     #datasets = load_data(dataset)
     #train_set_x, train_set_y = datasets[0]
+    dr = data_reader(dataset,2501)
+    train_set_x = dr.next_batch()
     #print train_set_x.get_value(borrow=True).shape
 
     # compute number of minibatches for training, validation and testing
-    n_train_batches = 1000/batch_size#train_set_x.get_value(borrow=True).shape[0] / batch_size
+    n_train_batches = 2501/batch_size#train_set_x.get_value(borrow=True).shape[0] / batch_size
 
     # start-snippet-2
     # allocate symbolic variables for the data
@@ -304,7 +306,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
         numpy_rng=rng,
         theano_rng=theano_rng,
         input=x,
-        n_visible=28 * 28,
+        n_visible=32 * 32,
         n_hidden=500
     )
 
@@ -346,7 +348,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
                           ' ran for %.2fm' % ((training_time) / 60.))
     image = Image.fromarray(
         tile_raster_images(X=da.W.get_value(borrow=True).T,
-                           img_shape=(28, 28), tile_shape=(10, 10),
+                           img_shape=(32, 32), tile_shape=(10, 10),
                            tile_spacing=(1, 1)))
     image.save('filters_corruption_0.png')
 
@@ -362,7 +364,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
         numpy_rng=rng,
         theano_rng=theano_rng,
         input=x,
-        n_visible=28 * 28,
+        n_visible=32 * 32,
         n_hidden=500
     )
 
@@ -407,7 +409,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
     # start-snippet-4
     image = Image.fromarray(tile_raster_images(
         X=da.W.get_value(borrow=True).T,
-        img_shape=(28, 28), tile_shape=(10, 10),
+        img_shape=(32, 32), tile_shape=(10, 10),
         tile_spacing=(1, 1)))
     image.save('filters_corruption_30.png')
     # end-snippet-4
