@@ -8,9 +8,10 @@ import theano.tensor as T
 import theano
 import scipy.misc as misc
 import os
+from matplotlib.tests.test_rcparams import fname
 # import Image
 class data_reader():
-    def __init__(self,path,batch_size):
+    def __init__(self,path,label=None,batch_size=100):
         self.dir_path = path
         self.batch_size = batch_size
         self.file_list = list()
@@ -18,6 +19,13 @@ class data_reader():
             for fname in filename:
                 self.file_list.append(os.path.join(dirname,fname))
         self._batch_str = 0
+        if label is not None:
+            self._label = self.load_label(label)
+        else:
+            self._label = None
+        
+        
+        
     def reinit(self):
         self._batch_str = 0
       
@@ -49,13 +57,35 @@ class data_reader():
         
         data_list = np.reshape(data_list,(-1,256*256))
         shared_list=theano.shared(data_list)
-        return shared_list
+        if self._label is not None:
+            label_temp = self._label[self._batch_str:self._batch_str+self.batch_size,:]
+        
+        self._batch_str = self._batch_str +self.batch_size
+        if self._label is not None:
+            return shared_list,label_temp
+        else:
+            return shared_list 
     
+    def load_label(self,path):
+        
+        label = list()
+        for dirname,_,filename in os.walk(path):
+            for fname in filename:
+                temp = list()
+                with open(os.path.join(dirname,fname)) as f:
+                    for line in f:
+                        val = line.split(" ")
+                        temp.append(int(val[len(val)-1]))
+                    
+                label.append(np.array(temp))
+        return np.transpose(np.array(label))
 def main():
     
     path = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data_rescaled/train"
-    dr=data_reader(path,100)
-    print dr.next_batch().shape
+    path_label = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data_rescaled/train_label"
+    dr=data_reader(path,path_label,100)
+    data,label= dr.next_batch()
+    
     
 if __name__ == '__main__':
     main()

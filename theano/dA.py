@@ -278,7 +278,7 @@ def test_dA(learning_rate=0.1, training_epochs=50,
     """
     #datasets = load_data(dataset)
     #train_set_x, train_set_y = datasets[0]
-    dr = data_reader(dataset,2501)
+    dr = data_reader(dataset,batch_size=2501)
     train_set_x = dr.next_batch()
     print train_set_x.get_value(borrow=True).shape
 

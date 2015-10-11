@@ -34,7 +34,7 @@ import sys
 import timeit
 
 import numpy
-
+from load_image import data_reader
 import theano
 import theano.tensor as T
 from theano.tensor.shared_randomstreams import RandomStreams
@@ -62,8 +62,8 @@ class SdA(object):
         self,
         numpy_rng,
         theano_rng=None,
-        n_ins=784,
-        hidden_layers_sizes=[500, 500],
+        n_ins=156*256,
+        hidden_layers_sizes=[5000, 500],
         n_outs=10,
         corruption_levels=[0.1, 0.1]
     ):
@@ -351,16 +351,24 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
 
     """
 
-    datasets = load_data(dataset)
-
-    train_set_x, train_set_y = datasets[0]
-    valid_set_x, valid_set_y = datasets[1]
-    test_set_x, test_set_y = datasets[2]
+    #datasets = load_data(dataset)
+    train_path = "/home/ubuntu/karishma/data/train"
+    train_label_path = "/home/ubuntu/karishma/data/train_label"
+    test_path = "/home/ubuntu/karishma/data/test"
+    test_label_path = "/home/ubuntu/karishma/data/test_label"
+    val_path = "/home/ubuntu/karishma/data/val"
+    val_label_path = "/home/ubuntu/karishma/data/val_label"
+    
+    dr_train = data_reader(train_path,train_label_path,2501)
+    dr_test = data_reader(test_path,test_label_path,4952)
+    dr_val = data_reader(val_path,val_label_path,2509)
+    train_set_x, train_set_y = dr_train.next_batch() 
+    valid_set_x, valid_set_y = dr_val.next_batch()
+    test_set_x, test_set_y = dr_test.next_batch()
+    
+    datasets = [{train_set_x,train_set_y},{valid_set_x,valid_set_y},{test_set_x,test_set_y}]
     print train_set_x.get_value(borrow=True).shape
-    a = T.vector() # declare variable
-    out = a
-    f = theano.function([a], out)   # compile function
-    print(f(train_set_y).shape)
+    
 
     # compute number of minibatches for training, validation and testing
     n_train_batches = train_set_x.get_value(borrow=True).shape[0]
@@ -373,9 +381,9 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
     # construct the stacked denoising autoencoder class
     sda = SdA(
         numpy_rng=numpy_rng,
-        n_ins=28 * 28,
+        n_ins=256*256,
         hidden_layers_sizes=[1000, 1000, 1000],
-        n_outs=10
+        n_outs=20
     )
     # end-snippet-3 start-snippet-4
     #########################
