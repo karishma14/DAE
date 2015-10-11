@@ -39,6 +39,7 @@ import numpy
 import theano
 import theano.tensor as T
 from theano.tensor.shared_randomstreams import RandomStreams
+
 from load_image import data_reader
 from utils import tile_raster_images
 
