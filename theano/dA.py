@@ -306,12 +306,12 @@ def test_dA(learning_rate=0.1, training_epochs=50,
         numpy_rng=rng,
         theano_rng=theano_rng,
         input=x,
-        n_visible=32 * 32,
-        n_hidden=600
+        n_visible=256 * 256,
+        n_hidden=6000
     )
 
     cost, updates = da.get_cost_updates(
-        corruption_level=0.7,
+        corruption_level=0.3,
         learning_rate=learning_rate
     )
 
@@ -343,7 +343,7 @@ def test_dA(learning_rate=0.1, training_epochs=50,
 
     training_time = (end_time - start_time)
 
-    print >> sys.stderr, ('The 70% corruption code for file ' +
+    print >> sys.stderr, ('The 30% corruption code for file ' +
                           os.path.split(__file__)[1] +
                           ' ran for %.2fm' % (training_time / 60.))
     # end-snippet-3
@@ -351,9 +351,9 @@ def test_dA(learning_rate=0.1, training_epochs=50,
     # start-snippet-4
     image = Image.fromarray(tile_raster_images(
         X=da.W.get_value(borrow=True).T,
-        img_shape=(32, 32), tile_shape=(10, 10),
+        img_shape=(256, 256), tile_shape=(10, 10),
         tile_spacing=(1, 1)))
-    image.save('filters_corruption_70.png')
+    image.save('filters_corruption_30_256.png')
     # end-snippet-4
 
     os.chdir('../')

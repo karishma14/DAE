@@ -35,7 +35,7 @@ class data_reader():
         shape=(h/bh,w/bh,bh,bw)
         strides = sz*np.array([w*bh,bw,w,1])
         blocks=np.lib.stride_tricks.as_strided(img, shape=shape, strides=strides)
-        return np.reshape(blocks,(-1,32*32))
+        return np.reshape(blocks,(-1,size*size))
 
     def next_batch(self):
         data_list = list()
@@ -43,11 +43,11 @@ class data_reader():
             img = misc.imread(fp)
             img = self._to_gray(img)
             img = self.normalize(img)
-            patch = self._get_patches(img, size=32)
+            patch = self._get_patches(img, size=256)
             data_list.append(patch)
         data_list = np.array(data_list,dtype=np.float32)
         
-        data_list = np.reshape(data_list,(-1,32*32))
+        data_list = np.reshape(data_list,(-1,256*256))
         shared_list=theano.shared(data_list)
         return shared_list
     
