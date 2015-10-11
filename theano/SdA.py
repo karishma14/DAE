@@ -362,6 +362,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
     dr_train = data_reader(train_path,train_label_path,2501)
     dr_test = data_reader(test_path,test_label_path,4952)
     dr_val = data_reader(val_path,val_label_path,2509)
+
     train_set_x, train_set_y = dr_train.next_batch() 
     valid_set_x, valid_set_y = dr_val.next_batch()
     test_set_x, test_set_y = dr_test.next_batch()

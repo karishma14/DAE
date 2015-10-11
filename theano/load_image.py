@@ -48,6 +48,7 @@ class data_reader():
     def next_batch(self):
         data_list = list()
         for fp in self.file_list[self._batch_str:self._batch_str+self.batch_size]:
+#	    print fp
             img = misc.imread(fp)
             img = self._to_gray(img)
             img = self.normalize(img)
@@ -61,7 +62,9 @@ class data_reader():
             label_temp = self._label[self._batch_str:self._batch_str+self.batch_size,:]
         
         self._batch_str = self._batch_str +self.batch_size
+
         if self._label is not None:
+
             return shared_list,label_temp
         else:
             return shared_list 
