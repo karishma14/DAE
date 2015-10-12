@@ -328,9 +328,9 @@ class SdA(object):
         return train_fn, valid_score, test_score
 
 
-def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
-             pretrain_lr=0.001, training_epochs=1000,
-             dataset='mnist.pkl.gz', batch_size=1):
+def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
+             pretrain_lr=0.01, training_epochs=1000,
+             dataset='mnist.pkl.gz', batch_size=100):
     """
     Demonstrates how to train and test a stochastic denoising autoencoder.
 
@@ -362,9 +362,9 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
     val_path = "/home/ubuntu/karishma/data/val"
     val_label_path = "/home/ubuntu/karishma/data/val_label"
     
-    dr_train = data_reader(train_path,train_label_path,10)
-    dr_test = data_reader(test_path,test_label_path,10)
-    dr_val = data_reader(val_path,val_label_path,10)
+    dr_train = data_reader(train_path,train_label_path,2501)
+    dr_test = data_reader(test_path,test_label_path,4952)
+    dr_val = data_reader(val_path,val_label_path,2509)
 
     train_set_x, train_set_y = dr_train.next_batch() 
     valid_set_x, valid_set_y = dr_val.next_batch()
@@ -388,7 +388,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
     sda = SdA(
         numpy_rng=numpy_rng,
         n_ins=256*256,
-        hidden_layers_sizes=[1000, 1000, 1000],
+        hidden_layers_sizes=[6000, 500],
         n_outs=20
     )
     # end-snippet-3 start-snippet-4
@@ -402,7 +402,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
     print '... pre-training the model'
     start_time = timeit.default_timer()
     ## Pre-train layer-wise
-    corruption_levels = [.1, .2, .3]
+    corruption_levels = [.1, .2]
     for i in xrange(sda.n_layers):
         # go through pretraining epochs
         for epoch in xrange(pretraining_epochs):
