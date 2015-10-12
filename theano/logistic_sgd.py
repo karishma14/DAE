@@ -162,7 +162,7 @@ class LogisticRegression(object):
                 'y should have the same shape as self.y_pred',
                 ('y', y.type, 'y_pred', self.y_pred.type)
             )
-        y = T.cast(y, dtype="int32")
+        
         
         # check if y is of the correct datatype
         if y.dtype.startswith('int'):
