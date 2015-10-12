@@ -362,9 +362,9 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
     val_path = "/home/ubuntu/karishma/data/val"
     val_label_path = "/home/ubuntu/karishma/data/val_label"
     
-    dr_train = data_reader(train_path,train_label_path,2501)
-    dr_test = data_reader(test_path,test_label_path,4952)
-    dr_val = data_reader(val_path,val_label_path,2509)
+    dr_train = data_reader(train_path,train_label_path,10)
+    dr_test = data_reader(test_path,test_label_path,10)
+    dr_val = data_reader(val_path,val_label_path,10)
 
     train_set_x, train_set_y = dr_train.next_batch() 
     valid_set_x, valid_set_y = dr_val.next_batch()
