@@ -49,7 +49,7 @@ class data_reader():
     def next_batch(self):
         data_list = list()
         for fp in self.file_list[self._batch_str:self._batch_str+self.batch_size]:
-#	    print fp
+#        print fp
             img = misc.imread(fp)
             img = self._to_gray(img)
             img = self.normalize(img)
@@ -61,11 +61,14 @@ class data_reader():
         shared_list=theano.shared(data_list)
         if self._label is not None:
             label_temp = self._label[self._batch_str:self._batch_str+self.batch_size,:]
+            label_temp[label_temp<0] = 0
         
         self._batch_str = self._batch_str +self.batch_size
 
         if self._label is not None:
-            return shared_list,theano.shared(label_temp,dtype=int32)
+            label_temp = theano.shared(np.asarray(label_temp,dtype=theano.config.floatX),borrow=True)
+            return shared_list,T.cast(label_temp, 'int32')
+        
         else:
             return shared_list 
     
@@ -84,8 +87,8 @@ class data_reader():
         return np.transpose(np.array(label))
 def main():
     
-    path = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data_rescaled/train"
-    path_label = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data_rescaled/train_label"
+    path = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data/train"
+    path_label = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data/train_label"
     dr=data_reader(path,path_label,100)
     data,label= dr.next_batch()
     
