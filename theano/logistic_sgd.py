@@ -144,7 +144,7 @@ class LogisticRegression(object):
         return -T.mean(T.log(self.p_y_given_x)[T.arange(y.shape[0]), y])
         # end-snippet-2
     def cross_entropy(self,y):
-        return - T.sum(self.p_y_given_x * T.log(y) +(1 - self.p_y_given_x) * T.log(1 - y),axis=1)
+        return - T.sum(self.p_y_given_x * T.log(y) +(1 - self.p_y_given_x) * T.log(1 - y))
     
     def errors(self, y):
         """Return a float representing the number of errors in the minibatch
@@ -296,7 +296,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
     # generate symbolic variables for input (x and y represent a
     # minibatch)
     x = T.matrix('x')  # data, presented as rasterized images
-    y = T.ivector('y')  # labels, presented as 1D vector of [int] labels
+    y = T.matrix('y')  # labels, presented as 1D vector of [int] labels
 
     # construct the logistic regression class
     # Each MNIST image has size 28*28
