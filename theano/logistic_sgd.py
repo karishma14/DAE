@@ -103,7 +103,7 @@ class LogisticRegression(object):
 
         # symbolic description of how to compute prediction as class whose
         # probability is maximal
-        self.y_pred = T.argmax(self.p_y_given_x, axis=1)
+        self.y_pred = self.p_y_given_x
         # end-snippet-1
 
         # parameters of the model
