@@ -369,7 +369,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
     valid_set_x, valid_set_y = dr_val.next_batch()
     test_set_x, test_set_y = dr_test.next_batch()
     
-    datasets = [{train_set_x,train_set_y},{valid_set_x,valid_set_y},{test_set_x,test_set_y}]
+    datasets = [(train_set_x, train_set_y), (valid_set_x, valid_set_y),(test_set_x, test_set_y)]
     print train_set_x.get_value(borrow=True).shape
     print test_set_x.get_value(borrow=True).shape
     print valid_set_x.get_value(borrow=True).shape
