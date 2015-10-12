@@ -99,7 +99,7 @@ class LogisticRegression(object):
         # x is a matrix where row-j  represents input training sample-j
         # b is a vector where element-k represent the free parameter of
         # hyperplane-k
-        self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
+        self.p_y_given_x = (T.dot(input, self.W) + self.b)
 
         # symbolic description of how to compute prediction as class whose
         # probability is maximal
