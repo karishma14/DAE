@@ -103,7 +103,7 @@ class SdA(object):
             theano_rng = RandomStreams(numpy_rng.randint(2 ** 30))
         # allocate symbolic variables for the data
         self.x = T.matrix('x')  # the data is presented as rasterized images
-        self.y = T.ivector('y')  # the labels are presented as 1D vector of
+        self.y = T.matrix('y')  # the labels are presented as 1D vector of
                                  # [int] labels
         # end-snippet-1
 
