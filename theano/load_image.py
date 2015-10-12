@@ -65,12 +65,7 @@ class data_reader():
         self._batch_str = self._batch_str +self.batch_size
 
         if self._label is not None:
-<<<<<<< HEAD
             return shared_list,theano.shared(label_temp,dtype=int32)
-=======
-
-            return shared_list,label_temp
->>>>>>> af3503bc4b839c4530383ed78f497820542e9dcd
         else:
             return shared_list 
     
