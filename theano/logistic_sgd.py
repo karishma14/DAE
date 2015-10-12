@@ -143,7 +143,9 @@ class LogisticRegression(object):
         # i.e., the mean log-likelihood across the minibatch.
         return -T.mean(T.log(self.p_y_given_x)[T.arange(y.shape[0]), y])
         # end-snippet-2
-
+    def cross_entropy(self,y):
+        return - T.sum(self.p_y_given_x * T.log(y) +(1 - self.p_y_given_x) * T.log(1 - y),axis=1)
+    
     def errors(self, y):
         """Return a float representing the number of errors in the minibatch
         over the total number of examples of the minibatch ; zero one

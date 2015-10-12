@@ -173,7 +173,8 @@ class SdA(object):
 
         # compute the cost for second phase of training,
         # defined as the negative log likelihood
-        self.finetune_cost = self.logLayer.negative_log_likelihood(self.y)
+        
+        self.finetune_cost = self.logLayer.cross_entropy(self.y)
         # compute the gradients with respect to the model parameters
         # symbolic variable that points to the number of errors made on the
         # minibatch given by self.x and self.y
