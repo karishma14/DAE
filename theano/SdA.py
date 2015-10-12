@@ -388,7 +388,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
     sda = SdA(
         numpy_rng=numpy_rng,
         n_ins=256*256,
-        hidden_layers_sizes=[6000, 500],
+        hidden_layers_sizes=[1000, 500],
         n_outs=20
     )
     # end-snippet-3 start-snippet-4
