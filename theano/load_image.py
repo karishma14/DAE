@@ -9,6 +9,7 @@ import theano
 import scipy.misc as misc
 import os
 from matplotlib.tests.test_rcparams import fname
+from theano.scalar.basic import int32
 # import Image
 class data_reader():
     def __init__(self,path,label=None,batch_size=100):
@@ -62,7 +63,7 @@ class data_reader():
         
         self._batch_str = self._batch_str +self.batch_size
         if self._label is not None:
-            return shared_list,label_temp
+            return shared_list,theano.shared(label_temp,dtype=int32)
         else:
             return shared_list 
     
