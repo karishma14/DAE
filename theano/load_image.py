@@ -58,7 +58,8 @@ class data_reader():
         data_list = np.array(data_list,dtype=np.float32)
         
         data_list = np.reshape(data_list,(-1,256*256))
-        shared_list=theano.shared(data_list,borrow=True)
+        shared_list=theano.shared(np.asarray(data_list,dtype=theano.config.floatX),borrow=True)
+        
         if self._label is not None:
             label_temp = self._label[self._batch_str:self._batch_str+self.batch_size,:]
             label_temp[label_temp<0] = 0
