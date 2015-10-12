@@ -162,6 +162,7 @@ class LogisticRegression(object):
                 'y should have the same shape as self.y_pred',
                 ('y', y.type, 'y_pred', self.y_pred.type)
             )
+        print y.dtype
         # check if y is of the correct datatype
         if y.dtype.startswith('int'):
             # the T.neq operator returns a vector of 0s and 1s, where 1
