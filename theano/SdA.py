@@ -39,7 +39,7 @@ import theano
 import theano.tensor as T
 from theano.tensor.shared_randomstreams import RandomStreams
 
-from logistic_sgd import LogisticRegression, load_data
+from svm import SVM
 from mlp import HiddenLayer
 from dA import dA
 
@@ -162,7 +162,7 @@ class SdA(object):
             self.dA_layers.append(dA_layer)
         # end-snippet-2
         # We now need to add a logistic layer on top of the MLP
-        self.logLayer = LogisticRegression(
+        self.logLayer = SVM(
             input=self.sigmoid_layers[-1].output,
             n_in=hidden_layers_sizes[-1],
             n_out=n_outs
@@ -174,7 +174,7 @@ class SdA(object):
         # compute the cost for second phase of training,
         # defined as the negative log likelihood
         
-        self.finetune_cost = self.logLayer.cross_entropy(self.y)
+        self.finetune_cost = self.logLayer.cost(self.y)
         # compute the gradients with respect to the model parameters
         # symbolic variable that points to the number of errors made on the
         # minibatch given by self.x and self.y
