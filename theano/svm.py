@@ -1,15 +1,8 @@
 
-import cPickle
-import gzip
-import os
-import sys
-import timeit
-
 import numpy
 
 import theano
 import theano.tensor as T
-
 
 class SVM(object):
     
@@ -35,7 +28,7 @@ class SVM(object):
 
         
         self.p_y_given_x = (T.dot(input, self.W) + self.b)
-
+        print self.p_y_given_x.get_value(borrow=True).shape
         self.y_pred = self.p_y_given_x
         
         self.params = [self.W, self.b]
