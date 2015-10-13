@@ -328,7 +328,7 @@ class SdA(object):
         return train_fn, valid_score, test_score
 
 
-def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
+def test_SdA(finetune_lr=0.1, pretraining_epochs=100,
              pretrain_lr=0.1, training_epochs=1000,
              dataset='mnist.pkl.gz', batch_size=100):
     """
@@ -388,7 +388,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
     sda = SdA(
         numpy_rng=numpy_rng,
         n_ins=256*256,
-        hidden_layers_sizes=[1000, 500],
+        hidden_layers_sizes=[3000, 1000],
         n_outs=20
     )
     # end-snippet-3 start-snippet-4
