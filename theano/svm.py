@@ -28,23 +28,17 @@ class SVM(object):
 
         
         self.p_y_given_x = (T.dot(input, self.W) + self.b)
-        
-        self.y_pred = self.p_y_given_x
+`
+        self.y_pred = T.round(self.p_y_given_x)
         
         self.params = [self.W, self.b]
         
         self.input = input
-    
-    def shape(self,y):
-        a=T.matrix()
-        out = a
-        f = theano.function([a],out)
-        print f(y)
+
     def hinge(self,y):
         return T.maximum(0, 1-y)
     
     def cost(self,y):
-        self.shape(y)
         mar = y*self.p_y_given_x
         cost = self.hinge(mar).mean(axis=0).sum()
         return cost
