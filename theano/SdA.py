@@ -162,23 +162,23 @@ class SdA(object):
             self.dA_layers.append(dA_layer)
         # end-snippet-2
         # We now need to add a logistic layer on top of the MLP
-        self.logLayer = SVM(
+        self.svmLayer = SVM(
             input=self.sigmoid_layers[-1].output,
             n_in=hidden_layers_sizes[-1],
             n_out=n_outs
         )
 
-        self.params.extend(self.logLayer.params)
+        self.params.extend(self.svmLayer.params)
         # construct a function that implements one step of finetunining
 
         # compute the cost for second phase of training,
         # defined as the negative log likelihood
         
-        self.finetune_cost = self.logLayer.cost(self.y)
+        self.finetune_cost = self.svmLayer.cost(self.y)
         # compute the gradients with respect to the model parameters
         # symbolic variable that points to the number of errors made on the
         # minibatch given by self.x and self.y
-        self.errors = self.logLayer.errors(self.y)
+        self.errors = self.svmLayer.errors(self.y)
 
     def pretraining_functions(self, train_set_x, batch_size):
         ''' Generates a list of functions, each of them implementing one
@@ -330,7 +330,7 @@ class SdA(object):
 
 def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
              pretrain_lr=0.01, training_epochs=1000,
-             dataset='mnist.pkl.gz', batch_size=1):
+             dataset='mnist.pkl.gz', batch_size=100):
     """
     Demonstrates how to train and test a stochastic denoising autoencoder.
 
@@ -362,9 +362,9 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
     val_path = "/home/ubuntu/karishma/data/val"
     val_label_path = "/home/ubuntu/karishma/data/val_label"
     
-    dr_train = data_reader(train_path,train_label_path,10)
-    dr_test = data_reader(test_path,test_label_path,10)
-    dr_val = data_reader(val_path,val_label_path,10)
+    dr_train = data_reader(train_path,train_label_path,2501)
+    dr_test = data_reader(test_path,test_label_path,4952)
+    dr_val = data_reader(val_path,val_label_path,2509)
 
     train_set_x, train_set_y = dr_train.next_batch() 
     valid_set_x, valid_set_y = dr_val.next_batch()
@@ -435,7 +435,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=30,
 
     print '... finetunning the model'
     # early-stopping parameters
-    patience = 10 * n_train_batches  # look as this many examples regardless
+    patience = 100 * n_train_batches  # look as this many examples regardless
     patience_increase = 2.  # wait this much longer when a new best is
                             # found
     improvement_threshold = 0.995  # a relative improvement of this much is
