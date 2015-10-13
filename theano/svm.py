@@ -28,7 +28,6 @@ class SVM(object):
 
         
         self.p_y_given_x = (T.dot(input, self.W) + self.b)
-`
         self.y_pred = T.round(self.p_y_given_x)
         
         self.params = [self.W, self.b]
