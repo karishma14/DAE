@@ -259,26 +259,13 @@ class dA(object):
 
 
 def test_dA(learning_rate=0.1, training_epochs=50,
-            dataset='/home/ubuntu/karishma/data/train',
+            dataset='../data/train',
             batch_size=100, output_folder='dA_plots'):
 
-    """
-    This demo is tested on MNIST
 
-    :type learning_rate: float
-    :param learning_rate: learning rate used for training the DeNosing
-                          AutoEncoder
-
-    :type training_epochs: int
-    :param training_epochs: number of epochs used for training
-
-    :type dataset: string
-    :param dataset: path to the picked dataset
-
-    """
     #datasets = load_data(dataset)
     #train_set_x, train_set_y = datasets[0]
-    dr = data_reader(dataset,batch_size=2501)
+    dr = data_reader(dataset,batch_size=2501,patch=256)
     train_set_x = dr.next_batch()
     print train_set_x.get_value(borrow=True).shape
 

@@ -355,16 +355,16 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=100,
     """
 
     #datasets = load_data(dataset)
-    train_path = "/home/ubuntu/karishma/data/train"
-    train_label_path = "/home/ubuntu/karishma/data/train_label"
-    test_path = "/home/ubuntu/karishma/data/test"
-    test_label_path = "/home/ubuntu/karishma/data/test_label"
-    val_path = "/home/ubuntu/karishma/data/val"
-    val_label_path = "/home/ubuntu/karishma/data/val_label"
+    train_path = "../data/train"
+    train_label_path = "../train_label"
+    test_path = "../data/test"
+    test_label_path = "../data/test_label"
+    val_path = "../data/val"
+    val_label_path = "../data/val_label"
     
-    dr_train = data_reader(train_path,train_label_path,2501)
-    dr_test = data_reader(test_path,test_label_path,4952)
-    dr_val = data_reader(val_path,val_label_path,2509)
+    dr_train = data_reader(train_path,train_label_path,2501,patch=256)
+    dr_test = data_reader(test_path,test_label_path,4952,patch=256)
+    dr_val = data_reader(val_path,val_label_path,2509,patch=256)
 
     train_set_x, train_set_y = dr_train.next_batch() 
     valid_set_x, valid_set_y = dr_val.next_batch()
@@ -388,7 +388,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=100,
     sda = SdA(
         numpy_rng=numpy_rng,
         n_ins=256*256,
-        hidden_layers_sizes=[3000, 1000],
+        hidden_layers_sizes=[3000, 500],
         n_outs=20
     )
     # end-snippet-3 start-snippet-4
@@ -435,7 +435,7 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=100,
 
     print '... finetunning the model'
     # early-stopping parameters
-    patience = 100 * n_train_batches  # look as this many examples regardless
+    patience = 10 * n_train_batches  # look as this many examples regardless
     patience_increase = 2.  # wait this much longer when a new best is
                             # found
     improvement_threshold = 0.995  # a relative improvement of this much is

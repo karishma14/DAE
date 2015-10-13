@@ -12,7 +12,7 @@ from matplotlib.tests.test_rcparams import fname
 from theano.scalar.basic import int32
 # import Image
 class data_reader():
-    def __init__(self,path,label=None,batch_size=100):
+    def __init__(self,path,label=None,batch_size=100,patch=256):
         self.dir_path = path
         self.batch_size = batch_size
         self.file_list = list()
@@ -24,7 +24,7 @@ class data_reader():
             self._label = self.load_label(label)
         else:
             self._label = None
-        
+        self.patch = patch;
         
         
     def reinit(self):
@@ -37,14 +37,14 @@ class data_reader():
         img = np.sum(img,axis=2)
         return np.array(img,dtype=np.float32)
     
-    def _get_patches(self,img,size=32,):
+    def _get_patches(self,img):
         sz = img.itemsize
         h,w = img.shape
-        bh,bw=size,size
+        bh,bw=self.patch,self.patch
         shape=(h/bh,w/bh,bh,bw)
         strides = sz*np.array([w*bh,bw,w,1])
         blocks=np.lib.stride_tricks.as_strided(img, shape=shape, strides=strides)
-        return np.reshape(blocks,(-1,size*size))
+        return np.reshape(blocks,(-1,self.patch*self.patch))
 
     def next_batch(self):
         data_list = list()
@@ -53,12 +53,13 @@ class data_reader():
             img = misc.imread(fp)
             img = self._to_gray(img)
             img = self.normalize(img)
-            patch = self._get_patches(img, size=256)
+            patch = self._get_patches(img)
             data_list.append(patch)
         data_list = np.array(data_list,dtype=np.float32)
         
-        data_list = np.reshape(data_list,(-1,256*256))
-        shared_list=theano.shared(np.asarray(data_list,dtype=theano.config.floatX),borrow=True)
+        data_list = np.reshape(data_list,(-1,self.patch*self.patch))
+        shared_list=theano.shared(np.asarray(data_list,
+                                               dtype=theano.config.floatX),borrow=True)
         
         if self._label is not None:
             label_temp = self._label[self._batch_str:self._batch_str+self.batch_size,:]
@@ -86,13 +87,3 @@ class data_reader():
                     
                 label.append(np.array(temp))
         return np.transpose(np.array(label))
-def main():
-    
-    path = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data/train"
-    path_label = "/Users/karishma/Dropbox/CMU/fall_2015/deep_learning/hw2/data/train_label"
-    dr=data_reader(path,path_label,100)
-    data,label= dr.next_batch()
-    
-    
-if __name__ == '__main__':
-    main()
