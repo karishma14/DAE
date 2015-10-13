@@ -28,13 +28,17 @@ class SVM(object):
 
         
         self.p_y_given_x = (T.dot(input, self.W) + self.b)
-        print self.p_y_given_x.get_value(borrow=True).shape
+        self.shape(self.p_y_given_x)
         self.y_pred = self.p_y_given_x
         
         self.params = [self.W, self.b]
         
         self.input = input
-
+    def shape(self,y):
+        a=T.matrix()
+        out = a
+        f = theano.function([a],out)
+        print f(y)
     def hinge(self,y):
         return T.maximum(0, 1-y)
     
